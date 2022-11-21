@@ -1,11 +1,11 @@
 import express from "express"
 import "dotenv/config"
-import connectToDB from "./DB/mongoConnection"
+import connectToDB from "./DB/mongoConnection.js"
 import cors from "cors"
 //import messageRouter from "./routes/Message"
-//import userRouter from "./routes/User"
-//import * as jwt from "./utilities/jwt"
-//import chalk from "chalk"
+import userRouter from "./routes/User"
+import * as jwt from "./utilities/jwt"
+import chalk from "chalk"
 
 const app = express()
 const PORT = process.env.PORT || 8080

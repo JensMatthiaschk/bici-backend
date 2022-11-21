@@ -1,4 +1,13 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose"
+import chalk from "chalk"
 
-export default function connectToDB () {mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected to MongoDB')).catch(() => console.log('Could not connect to MongoDB'))}
+async function connectToDB() {
+    try {
+        await mongoose.connect(process.env.MONGO_URI)
+        console.log(chalk.yellow("CONNECTED TO MONGODB"))
+    } catch (error) {
+        return error
+    }
+}
 
+export default connectToDB
