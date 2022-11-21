@@ -8,7 +8,7 @@ import {
     getUser,
     updateUser,
     deleteUser
-} from "../controllers/User"
+} from "../controllers/User.js"
 
 router
     .route("/")
