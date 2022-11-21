@@ -1,4 +1,4 @@
-import User from "../DB/User"
+import User from "../DB/User.js"
 import * as jwt from "../utilities/jwt"
 
 export const getAllUsers = async (req, res) => {

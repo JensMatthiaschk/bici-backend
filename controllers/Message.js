@@ -1,5 +1,5 @@
 import express from "express"
-import Message from "../DB/Message"
+import Message from "../DB/Message.js"
 
 async function getAllMessages(request, response) {
     try {

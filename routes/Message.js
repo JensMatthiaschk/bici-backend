@@ -1,8 +1,8 @@
 
 
 import express from "express"
-import MessageController from "../controllers/Message"
-import * as auth from "../utilities/auth"
+import MessageController from "../controllers/Message.js"
+import * as auth from "../utilities/auth.js"
 
 const router = express.Router()
 
