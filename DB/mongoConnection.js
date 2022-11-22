@@ -3,10 +3,10 @@ import chalk from "chalk"
 
 async function connectToDB() {
     try {
-        await mongoose.connect(process.env.MONGO_URI)
+        await mongoose.connect(process.env.MONGODB_URI)
         console.log(chalk.yellow("CONNECTED TO MONGODB"))
     } catch (error) {
-        return error
+        console.log(error)
     }
 }
 
