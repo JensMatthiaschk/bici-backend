@@ -2,7 +2,7 @@ import express from "express"
 import "dotenv/config"
 import connectToDB from "./DB/mongoConnection.js"
 import cors from "cors"
-//import messageRouter from "./routes/Message"
+import messageRouter from "./routes/Message"
 import userRouter from "./routes/User.js"
 import * as jwt from "./utilities/jwt.js"
 import chalk from "chalk"
@@ -23,7 +23,8 @@ app.use(jwt.decodeToken)
 app.use("/users", userRouter)
 
 // SIMPLE CRUD EXAMPLE
-// app.use("/messages", messageRouter)
+//
+app.use("/messages", messageRouter)
 
 connectToDB().then(() => {
     app.listen(PORT, () => console.log(chalk.green(`LISTENING ON PORT ${PORT} (http://localhost:${PORT})`)))
