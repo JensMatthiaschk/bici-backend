@@ -71,7 +71,7 @@ export const login = async (req, res) => {
 }
 
 export const me = async (req, res) => {
-    if (req.token.id) {
+    if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
             if (!user) {
