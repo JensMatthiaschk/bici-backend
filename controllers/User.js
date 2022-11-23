@@ -7,6 +7,11 @@ export const getAllUsers = async (req, res) => {
 }
 export const createUser = async (req, res) => { // create a new user
     try {
+        // const { name, email, password } = req.body;
+        // const userExists = await User.findOne({ email: email });
+        // if (userExists)
+        //     return res.status(409).send("User Already Exists. Please Login.");
+
         const user = await User.create(req.body)
         res.send({
             message: "User created successfully",
@@ -71,7 +76,7 @@ export const login = async (req, res) => {
 }
 
 export const me = async (req, res) => {
-    if (req.token.id) {
+    if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
             if (!user) {
@@ -81,7 +86,7 @@ export const me = async (req, res) => {
                     data: user,
                 })
             } else {
-                res.send({
+                res.status(200).send({
                     message: "User found",
                     success: true,
                     data: user,
@@ -95,7 +100,7 @@ export const me = async (req, res) => {
             })
         }
     } else {
-        res.send({
+        res.status(401).send({
             message: "You are not logged in",
             success: false,
         })
