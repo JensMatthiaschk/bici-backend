@@ -7,13 +7,24 @@ const UserSchema = new mongoose.Schema(
         name: { type: String },
         email: { required: true, type: String, unique: true },
         password: { required: true, type: String },
-
+        invite_id: { default: "", type: String },
+        invited_by: {
+            required: true,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+        },
     },
     { timestamps: true }
 )
 
 UserSchema.pre("save", function (next) {
     var user = this
+    if (user.invite_id === "") {
+
+        user.invite_id = "" + Math.floor(Math.random() * 100000000)
+    }
+
+
     if (!user.isModified("password")) return next()
 
     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {

@@ -8,7 +8,7 @@ const verifyToken = (req, res, next) => {
 
     if (authHeader) {
         const token = authHeader.split(" ")[1]
-
+        console.log('heade', token)
         jwt.verify(token, `${process.env.JWT_SECRET}`, (err, user) => {
             if (err) {
                 console.log(err)
@@ -29,6 +29,7 @@ const decodeToken = (req, res, next) => {
         if (authHeader) {
             const token = authHeader.split(" ")[1]
             jwt.verify(token, `${process.env.JWT_SECRET}`, (err, token) => {
+                if (err) next(new Error("token is unreadable"))
                 req.token = token
                 next()
             })

@@ -10,14 +10,15 @@ import {
     deleteUser
 } from "../controllers/User.js"
 
+
 router
     .route("/")
     .get(getAllUsers)
     .post(createUser)
+router.post("/signup", createUser)
+router.route("/login1").post(login)
 
-router.route("/login").post(login)
-
-router.get("/me", me)
+router.post("/me", me)
 
 
 export default router

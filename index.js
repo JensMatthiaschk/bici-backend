@@ -8,7 +8,7 @@ import * as jwt from "./utilities/jwt.js"
 import chalk from "chalk"
 
 const app = express()
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8081
 
 // MIDDLEWARES 
 app.use((req, res, next) => {
@@ -19,6 +19,7 @@ app.use(express.json())
 app.use(cors())
 app.use(jwt.decodeToken)
 
+
 // AUTHENTICATION
 app.use("/users", userRouter)
 
@@ -26,6 +27,15 @@ app.use("/users", userRouter)
 //
 app.use("/messages", messageRouter)
 
+
+
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send({ 'message': 'Something broke!' })
+})
+
+
 connectToDB().then(() => {
     app.listen(PORT, () => console.log(chalk.green(`LISTENING ON PORT ${PORT} (http://localhost:${PORT})`)))
 })
+

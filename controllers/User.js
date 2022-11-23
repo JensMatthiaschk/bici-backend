@@ -6,8 +6,17 @@ export const getAllUsers = async (req, res) => {
     res.json(users)
 }
 export const createUser = async (req, res) => { // create a new user
+    if (process.env.INVITE_ONLY) {
+        if (!req.body.invite_id) {
+            res.status(400).send({
+                message: "invite only loserrrrrr",
+                success: false,
+            })
+        }
+    }
     try {
-        const user = await User.create(req.body)
+        const inviter = await User.find({ invite_id: req.body.invite_id })
+        const user = await User.create({ ...req.body, invited_by: inviter._id })
         res.send({
             message: "User created successfully",
             data: user,
@@ -71,9 +80,11 @@ export const login = async (req, res) => {
 }
 
 export const me = async (req, res) => {
+    // console.log('LAL', req.token.id)
     if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
+            console.log('user', user)
             if (!user) {
                 res.status(404).send({
                     message: "User not found",
@@ -81,7 +92,8 @@ export const me = async (req, res) => {
                     data: user,
                 })
             } else {
-                res.send({
+                console.log('res', res.ok)
+                res.status(200).send({
                     message: "User found",
                     success: true,
                     data: user,
@@ -95,7 +107,7 @@ export const me = async (req, res) => {
             })
         }
     } else {
-        res.send({
+        res.status(401).send({
             message: "You are not logged in",
             success: false,
         })
