@@ -13,11 +13,12 @@ import {
 router
     .route("/")
     .get(getAllUsers)
-    .post(createUser)
+    
+router.route("/register").post(createUser)
 
 router.route("/login").post(login)
 
-router.get("/me", me)
+router.post("/me", me)
 
 
 export default router
