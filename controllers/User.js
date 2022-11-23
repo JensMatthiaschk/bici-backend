@@ -114,6 +114,10 @@ export const me = async (req, res) => {
     }
 }
 
+
+
+
+
 export const getUser = async (req, res) => {
     const user = await User.find({ _id: req.params.id })
     res.json(user)
