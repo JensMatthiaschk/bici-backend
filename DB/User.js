@@ -7,12 +7,12 @@ const UserSchema = new mongoose.Schema(
         name: { type: String },
         email: { required: true, type: String, unique: true },
         password: { required: true, type: String },
-        invite_id: { default: "", type: String },
-        invited_by: {
-            required: true,
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        },
+        // invite_id: { default: "", type: String },
+        // invited_by: {
+        //     required: true,
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "User",
+        // },
     },
     { timestamps: true }
 )

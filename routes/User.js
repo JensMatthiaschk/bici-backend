@@ -15,7 +15,8 @@ router
     .route("/")
     .get(getAllUsers)
     .post(createUser)
-router.post("/signup", createUser)
+
+router.post("/register", createUser)
 router.route("/login1").post(login)
 
 router.post("/me", me)
