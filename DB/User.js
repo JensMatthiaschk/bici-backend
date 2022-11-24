@@ -8,11 +8,11 @@ const UserSchema = new mongoose.Schema(
         email: { required: true, type: String, unique: true },
         password: { required: true, type: String },
         invite_id: { default: "", type: String },
-        invited_by: {
-            required: true,
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        },
+        /*  invited_by: {
+             required: true,
+             type: mongoose.Schema.Types.ObjectId,
+             ref: "User",
+         }, */
     },
     { timestamps: true }
 )

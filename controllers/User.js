@@ -6,17 +6,17 @@ export const getAllUsers = async (req, res) => {
     res.json(users)
 }
 export const createUser = async (req, res) => { // create a new user
-    if (process.env.INVITE_ONLY) {
+    /* if (process.env.INVITE_ONLY) {
         if (!req.body.invite_id) {
             res.status(400).send({
                 message: "invite only loserrrrrr",
                 success: false,
             })
-        }
-    }
+        } */
+
     try {
-        const inviter = await User.find({ invite_id: req.body.invite_id })
-        const user = await User.create({ ...req.body, invited_by: inviter._id })
+        //const inviter = await User.find({ invite_id: req.body.invite_id })
+        const user = await User.create(req.body, /* invited_by: inviter._id  */)
         res.send({
             message: "User created successfully",
             data: user,
