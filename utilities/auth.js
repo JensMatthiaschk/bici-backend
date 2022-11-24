@@ -1,4 +1,5 @@
-//import User from "../models/User"
+import User from "../DB/User.js"
+
 
 function isLoggedIn(req, res, next) {
     console.log(req.token, req.token.id)
