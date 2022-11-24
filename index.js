@@ -2,13 +2,13 @@ import express from "express"
 import "dotenv/config"
 import connectToDB from "./DB/mongoConnection.js"
 import cors from "cors"
-//import messageRouter from "./routes/Message"
+import messageRouter from "./routes/Message"
 import userRouter from "./routes/User.js"
 import * as jwt from "./utilities/jwt.js"
 import chalk from "chalk"
 
 const app = express()
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8081
 
 // MIDDLEWARES 
 app.use((req, res, next) => {
@@ -19,12 +19,23 @@ app.use(express.json())
 app.use(cors())
 app.use(jwt.decodeToken)
 
+
 // AUTHENTICATION
 app.use("/users", userRouter)
 
 // SIMPLE CRUD EXAMPLE
-// app.use("/messages", messageRouter)
+//
+app.use("/messages", messageRouter)
+
+
+
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send({ 'message': 'Something broke!' })
+})
+
 
 connectToDB().then(() => {
     app.listen(PORT, () => console.log(chalk.green(`LISTENING ON PORT ${PORT} (http://localhost:${PORT})`)))
 })
+

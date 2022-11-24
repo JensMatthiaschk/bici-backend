@@ -6,13 +6,25 @@ export const getAllUsers = async (req, res) => {
     res.json(users)
 }
 export const createUser = async (req, res) => { // create a new user
+    // if (process.env.INVITE_ONLY) {
+    //     if (!req.body.invite_id) {
+    //         res.status(400).send({
+    //             message: "invite only loserrrrrr",
+    //             success: false,
+    //         })
+    //     }
+    //}
     try {
+
+        // const inviter = await User.find({ invite_id: req.body.invite_id })
         // const { name, email, password } = req.body;
         // const userExists = await User.findOne({ email: email });
         // if (userExists)
         //     return res.status(409).send("User Already Exists. Please Login.");
 
+
         const user = await User.create(req.body)
+        //const userProfile = await UserProfile.create({user_id:user._id})
         res.send({
             message: "User created successfully",
             data: user,
@@ -79,6 +91,7 @@ export const me = async (req, res) => {
     if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
+            console.log('user', user)
             if (!user) {
                 res.status(404).send({
                     message: "User not found",
@@ -106,6 +119,10 @@ export const me = async (req, res) => {
         })
     }
 }
+
+
+
+
 
 export const getUser = async (req, res) => {
     const user = await User.find({ _id: req.params.id })
