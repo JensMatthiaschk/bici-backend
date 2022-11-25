@@ -2,7 +2,6 @@ import UserProfile from "../DB/UserProfile.js"
 import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
 
-
 export const getUserProfile = async (req, res) => {
     if (req.token?.id) {
         try {
@@ -63,7 +62,6 @@ export const editUserProfile = async (req, res) => {
             data: foundProfile,
             success: true,
         })
-
     } catch (error) {
         res.status(400).send({
             message: error.message,
