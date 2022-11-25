@@ -15,7 +15,7 @@ const ProfileSchema = new mongoose.Schema(
         bikeType: { type: String },
         cell: { type: String },
         birthday: { type: Date },
-        privacy: { type: boolean, default: true },
+        privacy: { type: Boolean, default: true },
         role: { type: String, default: "User" },
         avatar_url: { type: String, default: "https://placeimg.com/80/80/people" }
     },
@@ -23,7 +23,7 @@ const ProfileSchema = new mongoose.Schema(
 )
 
 ProfileSchema.pre("find", function () {
-    this.populate("User")
+    this.populate("user")
 })
 
 const UserProfile = mongoose.model("UserProfile", ProfileSchema);
