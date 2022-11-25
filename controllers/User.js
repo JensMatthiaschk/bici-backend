@@ -1,6 +1,6 @@
 import User from "../DB/User.js"
+import UserProfile from '../DB/UserProfile.js'
 import * as jwt from "../utilities/jwt.js"
-
 export const getAllUsers = async (req, res) => {
     const users = await User.find({})
     res.json(users)
@@ -17,10 +17,11 @@ export const createUser = async (req, res) => { // create a new user
     try {
         // const inviter = await User.find({ invite_id: req.body.invite_id })
         const user = await User.create(req.body)
-        //const userProfile = await UserProfile.create({user_id:user._id})
+        const userProfile = await UserProfile.create({ user: user._id })
+
         res.send({
             message: "User created successfully",
-            data: user,
+            data: { user, userProfile },
             success: true,
             jwt: jwt.generateToken({ id: user._id }),
         })
@@ -81,7 +82,7 @@ export const login = async (req, res) => {
 }
 
 export const me = async (req, res) => {
-    // console.log('LAL', req.token.id)
+    console.log('LAL', req.token._id)
     if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
@@ -114,9 +115,6 @@ export const me = async (req, res) => {
         })
     }
 }
-
-
-
 
 
 export const getUser = async (req, res) => {

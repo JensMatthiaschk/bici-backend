@@ -5,9 +5,6 @@ import {
     createUser,
     login,
     me,
-    getUser,
-    updateUser,
-    deleteUser
 } from "../controllers/User.js"
 
 
@@ -16,7 +13,7 @@ router
     .get(getAllUsers)
     .post(createUser)
 
-router.post("/register", createUser)
+router.post("/signup", createUser)
 router.route("/login1").post(login)
 
 router.post("/me", me)

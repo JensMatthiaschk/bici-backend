@@ -2,20 +2,15 @@ import express from "express"
 const router = express.Router()
 import {
     getUserProfile,
-    createUserProfile,
     editUserProfile,
 } from "../controllers/UserProfile.js"
 
 router
-    .route("/profile")
-    .post(createUserProfile)
-
-router
-    .route("/profile/:id")
+    .route("/")
     .get(getUserProfile)
 
 router
-    .route("/profile/:id/edit")
+    .route("/edit")
     .post(editUserProfile)
 
 export default router
