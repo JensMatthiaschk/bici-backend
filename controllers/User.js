@@ -15,7 +15,14 @@ export const createUser = async (req, res) => { // create a new user
     //     }
     //}
     try {
+
         // const inviter = await User.find({ invite_id: req.body.invite_id })
+        // const { name, email, password } = req.body;
+        // const userExists = await User.findOne({ email: email });
+        // if (userExists)
+        //     return res.status(409).send("User Already Exists. Please Login.");
+
+
         const user = await User.create(req.body)
         const userProfile = await UserProfile.create({ user: user._id })
 
@@ -82,7 +89,6 @@ export const login = async (req, res) => {
 }
 
 export const me = async (req, res) => {
-    console.log('LAL', req.token._id)
     if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
@@ -94,7 +100,6 @@ export const me = async (req, res) => {
                     data: user,
                 })
             } else {
-                console.log('res', res.ok)
                 res.status(200).send({
                     message: "User found",
                     success: true,

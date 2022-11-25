@@ -11,7 +11,8 @@ import {
 router
     .route("/")
     .get(getAllUsers)
-    .post(createUser)
+    
+router.route("/register").post(createUser)
 
 router.post("/signup", createUser)
 router.route("/login1").post(login)
