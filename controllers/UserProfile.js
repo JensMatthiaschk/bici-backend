@@ -6,17 +6,18 @@ import mongoose from "mongoose"
 export const getUserProfile = async (req, res) => {
     if (req.token?.id) {
         try {
-            const user = await UserProfile.findById(req.token.id)
-            console.log('user', user)
+            const userId = mongoose.Types.ObjectId(req.token.id);
+            const user = await UserProfile.findOne({ user: userId })
+            //console.log('foundUser', user)
             if (!user) {
                 res.status(404).send({
-                    message: "UserProfile> User not found",
+                    message: "getUserProfile> User not found",
                     success: false,
                     data: user,
                 })
             } else {
                 res.status(200).send({
-                    message: "UserProfile> User found",
+                    message: "getUserProfile> User found",
                     success: true,
                     data: user,
                 })
@@ -51,7 +52,6 @@ export const editUserProfile = async (req, res) => {
         if (!foundProfile) {
             foundProfile = await UserProfile.create({ user: userId })
         } else {
-            console.log(foundProfile)
             foundProfile.update(req.body, { new: true }, (err, data) => {
                 if (err) return console.log(err)
                 console.log(data)
