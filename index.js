@@ -4,6 +4,7 @@ import connectToDB from "./DB/mongoConnection.js"
 import cors from "cors"
 import messageRouter from "./routes/Message"
 import userRouter from "./routes/User.js"
+import profileRouter from "./routes/UserProfile.js"
 import * as jwt from "./utilities/jwt.js"
 import chalk from "chalk"
 
@@ -22,6 +23,9 @@ app.use(jwt.decodeToken)
 
 // AUTHENTICATION
 app.use("/users", userRouter)
+
+//USERPROFILE
+app.use("/profile", profileRouter)
 
 // SIMPLE CRUD EXAMPLE
 //
