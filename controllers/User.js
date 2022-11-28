@@ -18,7 +18,6 @@ export const createUser = async (req, res) => { // create a new user
         // const inviter = await User.find({ invite_id: req.body.invite_id })
         const user = await User.create(req.body)
         const userProfile = await UserProfile.create({ user: user._id })
-
         res.send({
             message: "User created successfully",
             data: { user, userProfile },
