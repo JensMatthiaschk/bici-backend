@@ -81,11 +81,11 @@ export const login = async (req, res) => {
 }
 
 export const me = async (req, res) => {
-    console.log('LAL', req.token._id)
+
     if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
-            console.log('user', user)
+            //console.log('user', user)
             if (!user) {
                 res.status(404).send({
                     message: "User not found",
@@ -93,7 +93,7 @@ export const me = async (req, res) => {
                     data: user,
                 })
             } else {
-                console.log('res', res.ok)
+
                 res.status(200).send({
                     message: "User found",
                     success: true,
