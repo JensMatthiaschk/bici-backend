@@ -7,7 +7,6 @@ import userRouter from "./routes/User.js"
 import profileRouter from "./routes/UserProfile.js"
 import * as jwt from "./utilities/jwt.js"
 import chalk from "chalk"
-
 const app = express()
 const PORT = process.env.PORT || 8081
 
@@ -16,8 +15,9 @@ app.use((req, res, next) => {
     console.log(chalk.blue(req.method), chalk.white(req.url))
     next()
 })
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(jwt.decodeToken)
 
 
@@ -42,4 +42,8 @@ app.use((err, req, res, next) => {
 connectToDB().then(() => {
     app.listen(PORT, () => console.log(chalk.green(`LISTENING ON PORT ${PORT} (http://localhost:${PORT})`)))
 })
+
+
+
+
 
