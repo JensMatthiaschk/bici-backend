@@ -8,8 +8,8 @@ import multer, { memoryStorage } from 'multer'
 
 // Avatar Upload
 
-// const storage = memoryStorage()
-// const upload = multer({ storage: storage })
+const storage = memoryStorage()
+const upload = multer({ storage: storage })
 
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
@@ -22,16 +22,16 @@ import multer, { memoryStorage } from 'multer'
 // })
 
 // DELETE THIS
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-})
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads')
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// })
 
-var upload = multer({ storage: storage })
+// var upload = multer({ storage: storage })
 
 // const upload = multer({ dest: './public/data/uploads/' })
 // app.post('/stats', upload.single('uploaded_file'), function (req, res) {

@@ -1,6 +1,7 @@
 import UserProfile from "../DB/UserProfile.js"
 import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
+import { uploadAvatarImage } from "../utilities/aws.js"
 
 export const getUserProfile = async (req, res) => {
     if (req.token?.id) {
@@ -47,6 +48,8 @@ export const editUserProfile = async (req, res) => {
         })
     }
     try {
+        const imageUpload = await uploadAvatarImage(req)
+        console.log("UPLOADIMAGESUCCESS", imageUpload)
         const userId = mongoose.Types.ObjectId(req.token.id);
         let foundProfile = await UserProfile.findOne({ user: req.token.id })
         if (!foundProfile) {
