@@ -24,18 +24,18 @@ export const editMapPin = async (req, res) => {
     }
     try {
         console.log('pinbody', req.body)
-        console.log('just transform', parseFloat(transform(req.body.location)[1]))
+
         const userId = mongoose.Types.ObjectId(req.token.id);
-        const coordiantes = req.body.location.slice(6)
+        const coordiantes = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
         console.log(coordiantes)
-        let foundPin = await SetPin.findOne({ location: [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])] })
+        let foundPin = await SetPin.findOne({ location: coordiantes })
         console.log('founs?', foundPin)
         if (!foundPin) {
             await SetPin.create({
                 user: userId,
                 camping: req.body.camping,
                 description: req.body.description,
-                location: [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])],
+                location: coordiantes,
                 events: req.body.events,
                 host: req.body.events,
                 reapir: req.body.events,
@@ -51,7 +51,7 @@ export const editMapPin = async (req, res) => {
         }
 
         res.send({
-            message: "Map > Pin successfully set",
+            message: "Pin successfully set o updated",
             data: foundPin,
             success: true,
         })

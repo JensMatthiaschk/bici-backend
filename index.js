@@ -17,8 +17,8 @@ app.use((req, res, next) => {
     console.log(chalk.blue(req.method), chalk.white(req.url))
     next()
 })
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
 app.use(jwt.decodeToken)
 
 

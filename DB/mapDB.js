@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const pointSchema = new mongoose.Schema({
+/* const pointSchema = new mongoose.Schema({
     type: {
         type: String,
         enum: ['Point'],
@@ -10,7 +10,7 @@ const pointSchema = new mongoose.Schema({
         type: [Number],
         required: true
     }
-});
+}); */
 
 const MapSchema = new mongoose.Schema(
     {
@@ -23,10 +23,7 @@ const MapSchema = new mongoose.Schema(
 
         camping: { type: Boolean, default: false },
         description: { type: String },
-        location: {
-            type: pointSchema,
-            required: true
-        },
+        location: { type: Array },
         events: { type: Boolean, default: false },
         host: { type: Boolean, default: false },
         reapir: { type: Boolean, default: false },
