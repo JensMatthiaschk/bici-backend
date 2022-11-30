@@ -1,5 +1,7 @@
 
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import AWS from 'aws-sdk'
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from 'crypto'
 import sharp from 'sharp'
 import dotenv from 'dotenv'
@@ -7,9 +9,6 @@ dotenv.config()
 
 //UNIQUE HEX NAME FOR IMAGE IN KEY: BEFORE UPLOADING
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
-
-//RESIZING IMAGES
-
 
 const bucketName = process.env.AWSBucketName;
 const bucketRegion = process.env.AWSBucketRegion;
@@ -28,56 +27,74 @@ export const uploadAvatarImage = async (req) => {
 
     //RESIZING BEFORE UPLOAD
     const buffer = await sharp(req.file.buffer).resize({ height: 300, width: 300, fit: "contain" }).toBuffer()
-
+    const ImageName = "avatar_images/" + randomImageName();
     // console.log("AVATARIMAGE", req)
     const params = {
         Bucket: bucketName,
-        Key: randomImageName(),
+        Key: ImageName,
         Body: buffer,
         ContentType: req.file.mimetype,
     }
 
-    const command = new PutObjectCommand(params)
-    await s3.send(command)
-
-
-    
-    // await s3.send(command, (err, data) => {
-    //     if (err) {
-    //         reject(err)
-    //     } else {
-    //         resolve(data.Location)
-    //     }
-    // })
+    const putCommand = new PutObjectCommand(params)
+    const getCommand = new GetObjectCommand({
+        Bucket: bucketName,
+        Key: ImageName,
+    });
+    try {
+        const data = await s3.send(putCommand)
+        //const getObjectResult = await s3.send(getCommand);
+        console.log("ImageName", ImageName)
+        const url = await getSignedUrl(s3, getCommand)
+        return {
+            message: "AWS>Image successfully uploaded",
+            success: true,
+            data: { aws_url: url, aws_name: ImageName }
+        }
+    }
+    catch (error) {
+        return {
+            message: "AWS>Image Upload not successfull",
+            success: false,
+            data: error,
+        }
+    }
 }
-// const s3 = new AWS.S3({
-//     bucketName: process.env.AWSBucketName,
-//     buckeRegion: process.env.AWSBucketRegion,
-//     credentials: {
-//         accessKeyId: process.env.AWSAccessKey,
-//         secretAccessKey: process.env.AWSSecretKey,
+
+// DELETE IMAGE
+
+//export const deleteAvatarImage = async (req) => {
+    //let foundProfile = await UserProfile.findOne({ avatar_img: req.body.avatar_img })
+    //const ImageName = req.avatar_img.name ???
+    // try {
+    //     const params = {
+    //         Bucket: bucketName,
+    //         Key: ImageName,
+    //     }
+    //     const command = new DeleteObjectCommand(params)
+    //     const foundImage = s3.send(command)
+
+    //     console.log("FOUND ME", foundImage)
+    // } catch (error) {
+    //     console.log(error)
+    // }
+//}
+
+
+// GET IMAGE
+
+// export const getAvatarImage = async (req) => {
+    //     try {
+//     const params = {
+//         Bucket: bucketName,
+//         Key: ImageName,
 //     }
-// })
-
-// const uploadImage = (filename, biciappimages, avatar_img) => {
-
-//     return new Promise((resolve, reject) => {
-//         const params = {
-//             Key: filename,
-//             Bucket: biciappimages,
-//             Body: avatar_img,
-//             ContentType: 'image/png',
-//             ACL: 'public-read'
-//         }
-
-//         s3.upload(params, (err, data) => {
-//             if (err) {
-//                 reject(err)
-//             } else {
-//                 resolve(data.Location)
-//             }
-//         })
-//     })
+//     const command = new GetObjectCommand(params)
+// const foundImage = s3.send(command)
+//         
+//      console.log("FOUND ME", foundImage)
+//     } catch (error) {
+//         console.log(error)
+//     }
 // }
-
-// module.exports = uploadImage
+// getAvatarImage()
