@@ -1,7 +1,7 @@
 //import User from "../models/User"
 
 function isLoggedIn(req, res, next) {
-    console.log(req.token, req.token.id)
+
     if (req.token && req.token.id) {
         next()
     } else {
