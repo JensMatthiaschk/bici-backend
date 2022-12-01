@@ -17,7 +17,10 @@ const ProfileSchema = new mongoose.Schema(
         birthday: { type: Date },
         privacy: { type: Boolean, default: true },
         role: { type: String, default: "User" },
-        avatar_url: { type: String, default: "https://placeimg.com/80/80/people" }
+        avatar_img: {
+            aws_url: { type: String, default: "https://placeimg.com/80/80/people" },
+            aws_name: { type: String }
+        }
     },
     { timestamps: true }
 )
