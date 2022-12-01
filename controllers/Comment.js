@@ -26,10 +26,24 @@ async function getAllComments(request, response) {
 }
 
 async function createComment(request, response) {
-    const comment = {
-        from: request.token.id,
+    console.log("comment", request.body)
+    /* const comment = {
+        author: request.token.id,
         comment: request.body.comment,
         user: request.token.id
     }
-    const res = await Comment.create(comment)
+    const res = await Comment.create(comment) */
 }
+
+async function deleteComment(request, response) {
+    const commment = await Comment.findByIdAndDelete(request.params.id)
+    response.json(commment)
+
+}
+
+const CommentController = {
+    getAllComments,
+    createComment,
+    deleteComment
+}
+export default CommentController

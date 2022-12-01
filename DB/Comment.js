@@ -10,11 +10,6 @@ const CommentsSchema = new mongoose.Schema(
             ref: "User",
         },
         message: {
-
-            Title: {
-                required: true,
-                type: String,
-            },
             Body: {
                 required: true,
                 type: String
