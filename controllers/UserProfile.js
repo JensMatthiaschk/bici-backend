@@ -1,14 +1,16 @@
 import UserProfile from "../DB/UserProfile.js"
 import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
-import { uploadAvatarImage } from "../utilities/aws.js"
+//import { uploadAvatarImage } from "../utilities/aws.js"
 import { urlencoded } from "express"
 
 export const getUserProfile = async (req, res) => {
+    console.log(req.file)
     if (req.token?.id) {
         try {
             const userId = mongoose.Types.ObjectId(req.token.id);
             const user = await UserProfile.findOne({ user: userId })
+            //const AWSAvatarImage = await getAvatarImage(user)
             if (!user) {
                 res.status(404).send({
                     message: "getUserProfile> User not found",
@@ -49,7 +51,8 @@ export const editUserProfile = async (req, res) => {
     }
     try {
         if (req.file) {
-            const imageUpload = await uploadAvatarImage(req)
+            //const uploadedAvatarImage = await uploadAvatarImage(req)
+            console.log("MULTERFILE", req.file)
             const userId = mongoose.Types.ObjectId(req.token.id);
             const foundProfile = await UserProfile.findOne({ user: req.token.id })
             if (!foundProfile) {
@@ -63,16 +66,17 @@ export const editUserProfile = async (req, res) => {
                 foundProfile.updateOne({
                     nickname: req.body.nickname,
                     address: req.body.address,
-                    location: "",
                     description: req.body.description,
                     bikeType: req.body.bikeType,
                     cell: req.body.cell,
                     birthday: req.body.birthday,
                     privacy: true,
-                    role: "",
                     avatar_img: {
-                        aws_url: imageUpload.data.aws_url,
-                        aws_name: imageUpload.data.aws_name
+                        aws_url: req.file.location,
+                        aws_name: req.file.key
+
+                        //aws_url: uploadedAvatarImage.avatar_img.aws.url,
+                        //aws_name: uploadedAvatarImage.avatar_img.aws.name
                     }
                 }, { new: true }, (err, data) => {
                     if (err) {
