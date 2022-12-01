@@ -31,7 +31,7 @@ const MapSchema = new mongoose.Schema(
         reapir: { type: Boolean, default: false },
         shower: { type: Boolean, default: false },
         swim: { type: Boolean, default: false },
-        pin_img: {
+        pin_imgs: {
             aws_url: { type: String },
             aws_name: { type: String }
         }

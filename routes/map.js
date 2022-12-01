@@ -1,5 +1,5 @@
 import express from "express";
-import { editMapPin } from "../controllers/map";
+import { editMapPin, getPins } from "../controllers/map";
 import { S3Client } from '@aws-sdk/client-s3'
 import multer, { memoryStorage } from 'multer'
 import multerS3 from 'multer-s3'
@@ -18,7 +18,7 @@ const secretAccessKey = process.env.AWSSecretKey;
 
 //UNIQUE HEX NAME FOR IMAGE IN KEY: BEFORE UPLOADING
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
-const ImageName = "avatar_images/" + randomImageName();
+const ImageName = "pin_images/" + randomImageName();
 //const buffer = await sharp(req.file.buffer).resize({ height: 300, width: 300, fit: "contain" }).toBuffer()
 
 const s3 = new S3Client({
