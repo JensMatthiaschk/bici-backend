@@ -20,7 +20,6 @@ const MapSchema = new mongoose.Schema(
             ref: "User",
             path: ""
         },
-
         camping: { type: Boolean, default: false },
         description: { type: String },
         location: {
@@ -32,8 +31,10 @@ const MapSchema = new mongoose.Schema(
         reapir: { type: Boolean, default: false },
         shower: { type: Boolean, default: false },
         swim: { type: Boolean, default: false },
-
-        avatar_url: { type: String, default: "https://placeimg.com/320/320/nature" }
+        pin_img: {
+            aws_url: { type: String },
+            aws_name: { type: String }
+        }
     },
     { timestamps: true }
 )

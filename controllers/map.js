@@ -3,12 +3,6 @@ import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
 import { transform, geoToArr } from "./utils";
 
-
-
-
-
-
-
 export const editMapPin = async (req, res) => {
 
     console.log('location', req.body.location)
@@ -24,7 +18,6 @@ export const editMapPin = async (req, res) => {
     }
     try {
         console.log('pinbody', req.body)
-
         const userId = mongoose.Types.ObjectId(req.token.id);
         const coordinates = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
         console.log('user', userId)
@@ -45,6 +38,10 @@ export const editMapPin = async (req, res) => {
                 reapir: req.body.events,
                 shower: req.body.events,
                 swim: req.body.events,
+                pin_img: {
+                    aws_url: req.file.location,
+                    aws_name: req.file.key
+                }
             })
 
         } else {
