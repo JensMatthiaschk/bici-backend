@@ -23,12 +23,73 @@ const s3 = new S3Client({
     region: bucketRegion,
 })
 
+
 export const uploadAvatarImage = async (req) => {
 
     //RESIZING BEFORE UPLOAD
     const buffer = await sharp(req.file.buffer).resize({ height: 300, width: 300, fit: "contain" }).toBuffer()
     const ImageName = "avatar_images/" + randomImageName();
     // console.log("AVATARIMAGE", req)
+    const params = {
+        Bucket: bucketName,
+        Key: ImageName,
+        Body: buffer,
+        ContentType: req.file.mimetype,
+    }
+
+    const command = new PutObjectCommand(params)
+
+    try {
+        const data = await s3.send(putCommand)
+        return {
+            message: "AWS>Image successfully uploaded",
+            success: true,
+            data: { aws_name: ImageName }
+        }
+    }
+    catch (error) {
+        return {
+            message: "AWS>Image Upload not successfull",
+            success: false,
+            data: error,
+        }
+    }
+}
+
+export const getAvatarImage = async (req) => {
+    const ImageName = req.file.avatar_img.aws_name
+
+    const params = {
+        Bucket: bucketName,
+        Key: ImageName,
+    }
+
+    const command = new GetObjectCommand(params);
+
+    try {
+        const url = await getSignedUrl(s3, command)
+        return {
+            message: "AWS>Image URL successfully created",
+            success: true,
+            data: { aws_url: url }
+        }
+    }
+    catch (error) {
+        return {
+            message: "AWS>Image couldn't be found",
+            success: false,
+            data: error,
+        }
+    }
+}
+
+
+export const uploadPinImage = async (req) => {
+
+    //RESIZING BEFORE UPLOAD
+    const buffer = await sharp(req.file.buffer).resize({ height: 300, width: 300, fit: "contain" }).toBuffer()
+    const ImageName = "pin_images/" + randomImageName();
+    // console.log("PINIMAGE", req)
     const params = {
         Bucket: bucketName,
         Key: ImageName,
@@ -60,6 +121,7 @@ export const uploadAvatarImage = async (req) => {
         }
     }
 }
+
 
 // DELETE IMAGE
 

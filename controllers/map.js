@@ -3,18 +3,10 @@ import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
 import { transform, geoToArr } from "./utils";
 
-
-
-
-
-
-
 export const editMapPin = async (req, res) => {
-
     console.log('location', req.body.location)
-
-
     console.log('PINreq', req.token)
+    console.log('PINfile', req.file)
     if (!req.token.id) {
         return res.status(404).send({
             message: "Map >You're not logged in ",
@@ -24,7 +16,6 @@ export const editMapPin = async (req, res) => {
     }
     try {
         console.log('pinbody', req.body)
-
         const userId = mongoose.Types.ObjectId(req.token.id);
         const coordinates = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
         console.log('user', userId)
@@ -41,10 +32,14 @@ export const editMapPin = async (req, res) => {
                     coordinates: coordinates
                 },
                 events: req.body.events,
-                host: req.body.events,
-                reapir: req.body.events,
-                shower: req.body.events,
-                swim: req.body.events,
+                host: req.body.host,
+                reapir: req.body.reapir,
+                shower: req.body.shower,
+                swim: req.body.swim,
+                pin_img: {
+                    aws_url: req.file.location,
+                    aws_name: req.file.key
+                }
             })
 
         } else {
@@ -89,7 +84,7 @@ export const getPins = async (req, res) => {
         }
     }).find((error, results) => {
         if (error) console.log(error);
-        res.send(JSON.stringify(results, 0, 2));
+        res.json(results);
     });
 
 
