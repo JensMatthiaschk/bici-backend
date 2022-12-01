@@ -81,7 +81,6 @@ export const login = async (req, res) => {
 }
 
 export const me = async (req, res) => {
-
     if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
@@ -93,7 +92,6 @@ export const me = async (req, res) => {
                     data: user,
                 })
             } else {
-
                 res.status(200).send({
                     message: "User found",
                     success: true,
@@ -120,7 +118,6 @@ export const getUser = async (req, res) => {
     const user = await User.find({ _id: req.params.id })
     res.json(user)
 }
-
 export const updateUser = async (req, res) => {
     const user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, {
         new: true,
