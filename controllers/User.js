@@ -25,7 +25,6 @@ export const createUser = async (req, res) => { // create a new user
 
         const user = await User.create(req.body)
         const userProfile = await UserProfile.create({ user: user._id })
-
         res.send({
             message: "User created successfully",
             data: { user, userProfile },
@@ -92,7 +91,7 @@ export const me = async (req, res) => {
     if (req.token?.id) {
         try {
             const user = await User.findById(req.token.id)
-            console.log('user', user)
+            //console.log('user', user)
             if (!user) {
                 res.status(404).send({
                     message: "User not found",
@@ -126,7 +125,6 @@ export const getUser = async (req, res) => {
     const user = await User.find({ _id: req.params.id })
     res.json(user)
 }
-
 export const updateUser = async (req, res) => {
     const user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, {
         new: true,

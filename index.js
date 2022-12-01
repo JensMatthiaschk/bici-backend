@@ -2,12 +2,13 @@ import express from "express"
 import "dotenv/config"
 import connectToDB from "./DB/mongoConnection.js"
 import cors from "cors"
-import messageRouter from "./routes/Message"
+//import messageRouter from "./routes/Message"
 import userRouter from "./routes/User.js"
 import profileRouter from "./routes/UserProfile.js"
 import * as jwt from "./utilities/jwt.js"
 import chalk from "chalk"
-
+import mapRouter from "./routes/map.js"
+import commentRouter from "./routes/comment.js"
 const app = express()
 const PORT = process.env.PORT || 8081
 
@@ -16,8 +17,9 @@ app.use((req, res, next) => {
     console.log(chalk.blue(req.method), chalk.white(req.url))
     next()
 })
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use(jwt.decodeToken)
 
 
@@ -27,9 +29,16 @@ app.use("/users", userRouter)
 //USERPROFILE
 app.use("/profile", profileRouter)
 
+//Map
+app.use("/map", mapRouter)
+
+
+//
+app.use("/comment", commentRouter)
+
 // SIMPLE CRUD EXAMPLE
 //
-app.use("/messages", messageRouter)
+//app.use("/messages", messageRouter)
 
 
 
@@ -42,4 +51,8 @@ app.use((err, req, res, next) => {
 connectToDB().then(() => {
     app.listen(PORT, () => console.log(chalk.green(`LISTENING ON PORT ${PORT} (http://localhost:${PORT})`)))
 })
+
+
+
+
 
