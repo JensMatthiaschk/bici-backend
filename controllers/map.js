@@ -41,10 +41,10 @@ export const editMapPin = async (req, res) => {
                     coordinates: coordinates
                 },
                 events: req.body.events,
-                host: req.body.events,
-                reapir: req.body.events,
-                shower: req.body.events,
-                swim: req.body.events,
+                host: req.body.host,
+                reapir: req.body.reapir,
+                shower: req.body.shower,
+                swim: req.body.swim,
             })
 
         } else {
@@ -89,7 +89,7 @@ export const getPins = async (req, res) => {
         }
     }).find((error, results) => {
         if (error) console.log(error);
-        res.send(JSON.stringify(results, 0, 2));
+        res.json(results);
     });
 
 
