@@ -1,7 +1,7 @@
 import SetPin from "../DB/mapDB";
 import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
-import { transform } from "./utils";
+import { transform, geoToArr } from "./utils";
 
 export const editMapPin = async (req, res) => {
 
@@ -18,20 +18,21 @@ export const editMapPin = async (req, res) => {
     }
     try {
         console.log('pinbody', req.body)
-        console.log('pinfile', req.file)
-        //const imageUpload = await uploadPinImage(req)
-        console.log('just transform', parseFloat(transform(req.body.location)[1]))
         const userId = mongoose.Types.ObjectId(req.token.id);
-        const coordiantes = req.body.location.slice(6)
-        console.log(coordiantes)
-        let foundPin = await SetPin.findOne({ location: [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])] })
+        const coordinates = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
+        console.log('user', userId)
+        let foundPin = await SetPin.findOne({ location: coordinates })
         console.log('founs?', foundPin)
         if (!foundPin) {
             await SetPin.create({
                 user: userId,
                 camping: req.body.camping,
                 description: req.body.description,
-                location: [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])],
+
+                location: {
+                    type: "Point",
+                    coordinates: coordinates
+                },
                 events: req.body.events,
                 host: req.body.events,
                 reapir: req.body.events,
@@ -51,7 +52,7 @@ export const editMapPin = async (req, res) => {
         }
 
         res.send({
-            message: "Map > Pin successfully set",
+            message: "Pin successfully set o updated",
             data: foundPin,
             success: true,
         })
@@ -64,6 +65,33 @@ export const editMapPin = async (req, res) => {
         })
     }
 }
+
+
+
+export const getPins = async (req, res) => {
+    console.log(Math.random())
+    const northEastArr = geoToArr(req.body._northEast)
+    const southWestArr = geoToArr(req.body._southWest)
+    console.log('North', northEastArr, 'South', southWestArr)
+    SetPin.find({
+        location: {
+            $geoWithin: {
+                $box:
+                    [
+                        northEastArr,
+                        southWestArr
+                    ]
+
+            }
+        }
+    }).find((error, results) => {
+        if (error) console.log(error);
+        res.send(JSON.stringify(results, 0, 2));
+    });
+
+
+}
+
 /* 
 export const getUserProfile = async (req, res) => {
     if (req.token?.id) {

@@ -7,7 +7,6 @@ import crypto from 'crypto'
 import sharp from 'sharp'
 import dotenv from 'dotenv'
 dotenv.config()
-
 const router = express.Router();
 
 // // // PinImages Upload
@@ -33,6 +32,7 @@ const s3 = new S3Client({
 // stroage = memoryStorage()
 // const upload = multer({ storage: storage })
 
+
 const upload = multer(
     {
         storage: multerS3({
@@ -47,13 +47,13 @@ const upload = multer(
         })
     }
 )
-/* router
-    .route("/")
-    .get(getPins)
- */
+
 router
     .route("/pinit")
     .post(upload.single("pin_img"), editMapPin)
 //upload.array('photos', 3)
 
+router
+    .route("/getpins")
+    .post(getPins)
 export default router
