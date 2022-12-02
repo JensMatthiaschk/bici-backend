@@ -8,28 +8,22 @@ const RatingSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
-        comment: {
-            required: true,
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Comment"
+        item: {
+            targetId: {
+                required: true,
+                type: String,
+            }, category: {
+                required: true,
+                type: String,
+            }
         },
-        pin: {
+        rating: {
             required: true,
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "SetPin",
+            type: Number
         },
-        rating: { required: Number }
     })
 RatingSchema.pre("find", function () {
     this.populate("user")
-})
-
-RatingSchema.pre("find", function () {
-    this.populate("Comment")
-})
-
-RatingSchema.pre("find", function () {
-    this.populate("SetPin")
 })
 
 const Rating = mongoose.model("Rating", RatingSchema)
