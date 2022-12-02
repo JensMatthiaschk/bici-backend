@@ -6,12 +6,12 @@ const router = express.Router()
 
 
 const {
-    // getAllComments,
+    getAllComments,
     createComment,
     //  deleteComment,
 } = CommentController
 
-router.route("/").post(createComment)//get(getAllComments).
+router.route("/").post(createComment).get(getAllComments)
 //router.route("/:id").delete(deleteComment)
 
 export default router
