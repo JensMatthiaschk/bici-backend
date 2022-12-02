@@ -29,14 +29,23 @@ async function getAllComments(request, response) {
 
 async function createComment(request, response) {
     console.log("comment", request.body)
-    // await Comment.create({
-    //     user: request.token.id,
-    //     comment: request.body.comment,
-    // })
-    // res.send({
-    //     message: "commented",
-    //     success: true,
-    // })
+    try {
+        await Comment.create({
+            user: request.token.id,
+            comment: request.body.comment,
+            pin_id: request.body.pin_id
+        })
+        return response.send({
+            message: "commenting succesful",
+            success: true,
+        })
+    } catch (error) {
+        return response.send({
+            message: "commenting failed",
+            success: false,
+        })
+
+    }
 
 }
 /* 
