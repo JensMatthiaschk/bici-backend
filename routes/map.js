@@ -50,7 +50,7 @@ const upload = multer(
 
 router
     .route("/pinit")
-    .post(upload.single("pin_img"), editMapPin)
+    .post(upload.array("pin_imgs"), editMapPin)
 //upload.array('photos', 3)
 
 router
