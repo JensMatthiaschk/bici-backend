@@ -29,14 +29,14 @@ async function getAllComments(request, response) {
 
 async function createComment(request, response) {
     console.log("comment", request.body)
-    await Comment.create({
-        user: request.token.id,
-        comment: request.body.comment,
-    })
-    res.send({
-        message: "commented",
-        success: true,
-    })
+    // await Comment.create({
+    //     user: request.token.id,
+    //     comment: request.body.comment,
+    // })
+    // res.send({
+    //     message: "commented",
+    //     success: true,
+    // })
 
 }
 /* 
