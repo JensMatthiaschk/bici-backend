@@ -56,7 +56,7 @@ export const editMapPin = async (req, res) => {
         }
 
         res.send({
-            message: "Pin successfully set o updated",
+            message: "Pin successfully set or updated",
             data: foundPin,
             success: true,
         })
