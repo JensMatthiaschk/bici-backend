@@ -12,6 +12,7 @@ export const editMapPin = async (req, res) => {
         })
     }
     try {
+        console.log("location", req.body.location)
         const userId = mongoose.Types.ObjectId(req.token.id);
         const coordinates = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
 
