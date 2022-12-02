@@ -3,18 +3,7 @@ import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
 import { transform, geoToArr } from "./utils";
 
-
-
-
-
-
-
 export const editMapPin = async (req, res) => {
-
-    console.log('location', req.body.location)
-
-
-    console.log('PINreq', req.token)
     if (!req.token.id) {
         return res.status(404).send({
             message: "Map >You're not logged in ",
@@ -23,28 +12,40 @@ export const editMapPin = async (req, res) => {
         })
     }
     try {
-        console.log('pinbody', req.body)
-
+        console.log("location", req.body.location)
         const userId = mongoose.Types.ObjectId(req.token.id);
         const coordinates = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
-        console.log('user', userId)
-        let foundPin = await SetPin.findOne({ location: coordinates })
-        console.log('founs?', foundPin)
+
+        let foundPin = await SetPin.findOne({
+            location: {
+                coordinates: coordinates
+            }
+        })
         if (!foundPin) {
             await SetPin.create({
                 user: userId,
                 camping: req.body.camping,
                 description: req.body.description,
-
                 location: {
                     type: "Point",
                     coordinates: coordinates
                 },
                 events: req.body.events,
-                host: req.body.events,
-                reapir: req.body.events,
-                shower: req.body.events,
-                swim: req.body.events,
+                host: req.body.host,
+                reapir: req.body.reapir,
+                shower: req.body.shower,
+                swim: req.body.swim,
+                pin_imgs: req.files.map(e => ({
+                    aws_url: e.location,
+                    aws_name: e.key
+                }
+                ))
+                // pin_imgs: [
+                //     req.files.map((img) =>  {
+                //         console.log("IMMMMMMMAAAG", img);
+                //         return {aws_url: ${img.location},
+                //     aws_name: ${img.key}}
+                //     })]
             })
 
         } else {
@@ -89,7 +90,7 @@ export const getPins = async (req, res) => {
         }
     }).find((error, results) => {
         if (error) console.log(error);
-        res.send(JSON.stringify(results, 0, 2));
+        res.json(results);
     });
 
 

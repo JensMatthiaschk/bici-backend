@@ -1,5 +1,6 @@
+import { request } from "express"
 import Comment from "../DB/Comment.js"
-
+/* 
 async function getAllComments(request, response) {
     try {
         if (request.token?.id) {
@@ -23,27 +24,30 @@ async function getAllComments(request, response) {
             data: error
         })
     }
-}
+} */
+
 
 async function createComment(request, response) {
     console.log("comment", request.body)
-    /* const comment = {
-        author: request.token.id,
-        comment: request.body.comment,
-        user: request.token.id
-    }
-    const res = await Comment.create(comment) */
-}
+    // await Comment.create({
+    //     user: request.token.id,
+    //     comment: request.body.comment,
+    // })
+    // res.send({
+    //     message: "commented",
+    //     success: true,
+    // })
 
+}
+/* 
 async function deleteComment(request, response) {
     const commment = await Comment.findByIdAndDelete(request.params.id)
     response.json(commment)
-
 }
-
+*/
 const CommentController = {
-    getAllComments,
+
     createComment,
-    deleteComment
+
 }
-export default CommentController
+export default CommentController 

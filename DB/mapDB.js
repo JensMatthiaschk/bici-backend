@@ -20,7 +20,6 @@ const MapSchema = new mongoose.Schema(
             ref: "User",
             path: ""
         },
-
         camping: { type: Boolean, default: false },
         description: { type: String },
         location: {
@@ -32,8 +31,10 @@ const MapSchema = new mongoose.Schema(
         reapir: { type: Boolean, default: false },
         shower: { type: Boolean, default: false },
         swim: { type: Boolean, default: false },
-
-        avatar_url: { type: String, default: "https://placeimg.com/320/320/nature" }
+        pin_imgs: [{
+            aws_url: { type: String },
+            aws_name: { type: String }
+        }]
     },
     { timestamps: true }
 )
@@ -44,7 +45,7 @@ MapSchema.pre("find", function () {
 
 MapSchema.index({ location: "2dsphere" });
 
-const SetPin = mongoose.model("SetPin", MapSchema);
+const SetPin = mongoose.model("setpin", MapSchema);
 
 export default SetPin
 

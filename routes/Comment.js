@@ -1,18 +1,17 @@
 import express from "express"
 import CommentController from "../controllers/Comment.js"
-import * as auth from "../utilities/auth.js"
 
 const router = express.Router()
 
 
 
 const {
-    getAllComments,
+    // getAllComments,
     createComment,
-    deleteComment,
+    //  deleteComment,
 } = CommentController
 
-router.route("/").get(getAllComments).post(createComment)
-router.route("/:id").delete(deleteComment)
+router.route("/").post(createComment)//get(getAllComments).
+//router.route("/:id").delete(deleteComment)
 
 export default router
