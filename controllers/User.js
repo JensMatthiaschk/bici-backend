@@ -53,7 +53,7 @@ export const login = async (req, res) => {
             if (error) {
                 console.log(error)
                 res.send({
-                    message: error.message,
+                    message: "email or password is incorrect",
                     success: false,
                     data: error,
                 })

@@ -9,10 +9,14 @@ const CommentsSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
-        comment: { required: true, type: String },
-        pinId: { required: true, type: mongoose.Schema.Types.ObjectId, ref: "SetPin" },
-
-
+        comment: {
+            required: true,
+            type: String
+        },
+        pin_id: {
+            required: true,
+            type: String
+        }
     },
     { timestamps: true }
 )
