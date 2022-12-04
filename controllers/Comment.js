@@ -2,7 +2,8 @@ import mongoose from "mongoose"
 import Comment from "../DB/Comment.js"
 import SetPin from "../DB/mapDB.js"
 
-async function getAllComments(request, response) {
+async function getPinComments(request, response) {
+    console.log("PINID", request.body)
     const pin_id = mongoose.Types.ObjectId(request.body.pin_id)
     const pin_data = await SetPin.find({ _id: pin_id })
     try {
@@ -12,6 +13,7 @@ async function getAllComments(request, response) {
         return response.send({
             message: "comments found for pin" + request.body.pin_id,
             success: true,
+            data: response
         })
     } catch (error) {
         return response.send({
@@ -51,7 +53,7 @@ async function deleteComment(request, response) {
 }
 */
 const CommentController = {
-    getAllComments,
+    getPinComments,
     createComment,
 
 }

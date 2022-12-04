@@ -9,7 +9,7 @@ const RatingSchema = new mongoose.Schema(
             ref: "User",
         },
         item: {
-            targetId: {
+            refId: {
                 required: true,
                 type: String,
             }, category: {
@@ -17,9 +17,9 @@ const RatingSchema = new mongoose.Schema(
                 type: String,
             }
         },
-        rating: {
+        ratingValue: {
             required: true,
-            type: Number
+            type: String,
         },
     })
 RatingSchema.pre("find", function () {
