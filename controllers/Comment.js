@@ -1,28 +1,27 @@
 import mongoose from "mongoose"
 import Comment from "../DB/Comment.js"
-import SetPin from "../DB/mapDB.js"
+import Mappin from "../DB/mapDB.js"
 
 async function getPinComments(request, response) {
-    console.log("PINID", request.body)
-    const pin_id = mongoose.Types.ObjectId(request.body.pin_id)
-    const pin_data = await SetPin.find({ _id: pin_id })
-    try {
-        await Comment.find({
-            pin_id: request.body.pin_id
-        })
-        return response.send({
-            message: "comments found for pin" + request.body.pin_id,
-            success: true,
-            data: response
-        })
-    } catch (error) {
-        return response.send({
-            message: "Sorry we could not find the comments",
-            succes: false,
-        })
+    console.log("PINID in GET Comments", request.body.pinId)
+    if (request.body.pinId) {
+        try {
+            const pinComments = await Comment.find({
+                pin_id: request.body.pinId
+            })
+            return response.send({
+                message: "comments found for pin",
+                success: true,
+                data: pinComments
+            })
+        } catch (error) {
+            return response.send({
+                message: "Sorry we could not find the comments",
+                success: false,
+            })
+        }
     }
 }
-
 
 
 async function createComment(request, response) {
