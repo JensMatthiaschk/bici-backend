@@ -1,4 +1,4 @@
-import SetPin from "../DB/mapDB";
+import Mappin from "../DB/mapDB";
 import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
 import { transform, geoToArr } from "./utils";
@@ -12,16 +12,17 @@ export const editMapPin = async (req, res) => {
         })
     }
     try {
+        console.log("location", req.body.location)
         const userId = mongoose.Types.ObjectId(req.token.id);
         const coordinates = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
 
-        let foundPin = await SetPin.findOne({
+        let foundPin = await Mappin.findOne({
             location: {
                 coordinates: coordinates
             }
         })
         if (!foundPin) {
-            await SetPin.create({
+            await Mappin.create({
                 user: userId,
                 camping: req.body.camping,
                 description: req.body.description,
@@ -72,14 +73,11 @@ export const editMapPin = async (req, res) => {
 
 
 export const getPins = async (req, res) => {
-
-    const northEastArr = geoToArr(req.body.bou._northEast)
-    const southWestArr = geoToArr(req.body.bou._southWest)
-    console.log('North', northEastArr, 'South', southWestArr, req.body.filter)
-    SetPin.find({
-        // ...req.body.filter,
-        //$and example for filtering
-
+    console.log(Math.random())
+    const northEastArr = geoToArr(req.body._northEast)
+    const southWestArr = geoToArr(req.body._southWest)
+    console.log('North', northEastArr, 'South', southWestArr)
+    Mappin.find({
         location: {
             $geoWithin: {
                 $box:

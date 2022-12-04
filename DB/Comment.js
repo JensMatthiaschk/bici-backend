@@ -2,8 +2,6 @@ import mongoose from "mongoose"
 
 const CommentsSchema = new mongoose.Schema(
     {
-
-
         user: {
             required: true,
             type: mongoose.Schema.Types.ObjectId,

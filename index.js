@@ -8,7 +8,9 @@ import profileRouter from "./routes/UserProfile.js"
 import * as jwt from "./utilities/jwt.js"
 import chalk from "chalk"
 import mapRouter from "./routes/map.js"
-import commentRouter from "./routes/Comment.js"
+import commentRouter from "./routes/comment.js"
+import ratingRouter from "./routes/Rating.js"
+
 const app = express()
 const PORT = process.env.PORT || 8081
 
@@ -29,12 +31,14 @@ app.use("/users", userRouter)
 //USERPROFILE
 app.use("/profile", profileRouter)
 
-//Map
+//MAP
 app.use("/map", mapRouter)
 
-
-//
+//COMMENT
 app.use("/comment", commentRouter)
+
+//RATING
+app.use("/rating", ratingRouter)
 
 // SIMPLE CRUD EXAMPLE
 //
