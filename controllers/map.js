@@ -72,11 +72,14 @@ export const editMapPin = async (req, res) => {
 
 
 export const getPins = async (req, res) => {
-    console.log(Math.random())
-    const northEastArr = geoToArr(req.body._northEast)
-    const southWestArr = geoToArr(req.body._southWest)
-    console.log('North', northEastArr, 'South', southWestArr)
+
+    const northEastArr = geoToArr(req.body.bou._northEast)
+    const southWestArr = geoToArr(req.body.bou._southWest)
+    console.log('North', northEastArr, 'South', southWestArr, req.body.filter)
     SetPin.find({
+        // ...req.body.filter,
+        //$and example for filtering
+
         location: {
             $geoWithin: {
                 $box:
