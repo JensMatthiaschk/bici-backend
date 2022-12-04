@@ -87,8 +87,9 @@ export const getPins = async (req, res) => {
                     ]
 
             }
-        }
-    }).find((error, results) => {
+        },
+
+    }, (error, results) => {
         if (error) console.log(error);
         res.json(results);
     });

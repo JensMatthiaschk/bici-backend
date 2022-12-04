@@ -10,6 +10,7 @@ import chalk from "chalk"
 import mapRouter from "./routes/map.js"
 import commentRouter from "./routes/comment.js"
 import ratingRouter from "./routes/Rating.js"
+
 const app = express()
 const PORT = process.env.PORT || 8081
 
