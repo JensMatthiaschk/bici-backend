@@ -1,4 +1,4 @@
-import Mappin from "../DB/mapDB";
+import SetPin from "../DB/mapDB";
 import * as jwt from "../utilities/jwt.js"
 import mongoose from "mongoose"
 import { transform, geoToArr } from "./utils";
@@ -16,13 +16,13 @@ export const editMapPin = async (req, res) => {
         const userId = mongoose.Types.ObjectId(req.token.id);
         const coordinates = [parseFloat(transform(req.body.location)[0]), parseFloat(transform(req.body.location)[1])]
 
-        let foundPin = await Mappin.findOne({
+        let foundPin = await SetPin.findOne({
             location: {
                 coordinates: coordinates
             }
         })
         if (!foundPin) {
-            await Mappin.create({
+            await SetPin.create({
                 user: userId,
                 camping: req.body.camping,
                 description: req.body.description,
@@ -73,11 +73,12 @@ export const editMapPin = async (req, res) => {
 
 
 export const getPins = async (req, res) => {
+    console.log("GET PINS BODY", req.body)
     console.log(Math.random())
-    const northEastArr = geoToArr(req.body._northEast)
-    const southWestArr = geoToArr(req.body._southWest)
+    const northEastArr = geoToArr(req.body.bou._northEast)
+    const southWestArr = geoToArr(req.body.bou._southWest)
     console.log('North', northEastArr, 'South', southWestArr)
-    Mappin.find({
+    SetPin.find({
         location: {
             $geoWithin: {
                 $box:
