@@ -85,16 +85,12 @@ export const getPins = async (req, res) => {
                         northEastArr,
                         southWestArr
                     ]
-
             }
         },
-
     }, (error, results) => {
         if (error) console.log(error);
         res.json(results);
     });
-
-
 }
 
 /* 

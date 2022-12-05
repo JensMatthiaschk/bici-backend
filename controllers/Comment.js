@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import Comment from "../DB/Comment.js"
-import Mappin from "../DB/mapDB.js"
+import SetPin from "../DB/mapDB.js"
+
 
 async function getPinComments(request, response) {
     console.log("PINID in GET Comments", request.body.pinId)
@@ -54,6 +55,7 @@ async function deleteComment(request, response) {
 const CommentController = {
     getPinComments,
     createComment,
-
 }
+
+
 export default CommentController 
